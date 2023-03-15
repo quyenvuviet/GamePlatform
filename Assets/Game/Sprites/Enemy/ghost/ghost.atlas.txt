@@ -1,0 +1,15 @@
+ghost.png
+size:112,176
+filter:Linear,Linear
+pma:true
+body
+bounds:2,80,92,52
+face1
+bounds:48,134,47,38
+offsets:1,1,49,41
+face2
+bounds:2,135,44,37
+offsets:1,1,47,39
+head
+bounds:2,2,105,76
+offsets:0,0,105,88

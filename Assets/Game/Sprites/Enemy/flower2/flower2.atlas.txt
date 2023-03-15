@@ -1,0 +1,17 @@
+flower2.png
+size:172,108
+filter:Linear,Linear
+pma:true
+1
+bounds:86,2,54,81
+offsets:1,1,57,83
+rotate:90
+2
+bounds:2,5,54,82
+offsets:1,1,56,84
+rotate:90
+body
+bounds:102,58,57,47
+offsets:2,1,60,49
+body2
+bounds:2,61,98,44

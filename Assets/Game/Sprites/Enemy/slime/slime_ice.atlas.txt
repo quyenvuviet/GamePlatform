@@ -1,0 +1,11 @@
+slime_ice.png
+size:92,56
+filter:Linear,Linear
+pma:true
+body
+bounds:2,2,56,50
+offsets:1,1,58,52
+face
+bounds:60,12,40,29
+offsets:1,1,42,31
+rotate:90
