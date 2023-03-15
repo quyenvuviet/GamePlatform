@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 488711242}
   - component: {fileID: 488711241}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SaveDateFile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,11 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fa6ea51a60f664ebd490f94483a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataSetting:
-    Sound: 10
-    Music: 10
-    indexGraphic: 1
-    indexLengauge: 1
 --- !u!4 &488711242
 Transform:
   m_ObjectHideFlags: 0

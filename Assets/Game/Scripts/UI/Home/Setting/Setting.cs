@@ -15,8 +15,29 @@ public class Setting : FrameBase
     private Dropdown DropdownGraphic;
     [SerializeField]
     private Dropdown DropdownLanguage;
-
-
+    
+    public float Music
+    {
+        get
+        {
+            return silderMusic.value;
+        }
+        set
+        {
+            silderMusic.value = value;
+        }
+    }
+    public float Sound
+    {
+        get
+        {
+            return silderSound.value;
+        }
+        set
+        {
+            silderSound.value = value;
+        }
+    }
     List<string> Graphic = new List<string>()
     {
        "low","hight","Nomal"
@@ -30,28 +51,18 @@ public class Setting : FrameBase
     {
         Init();
         gameObject.SetActive(false);
-    
-
-
-
+        silderMusic.value = SaveFile.Intance.GetMusic();
+        silderSound.value = SaveFile.Intance.GetSound();
     }
-    private void LoadData()
-    {
-       /* DropdownGraphic.value = SaveFile.GetIndexGraphic();
-        DropdownLanguage.value = SaveFile.GetLanguage();
-        silderMusic.value = SaveFile.GetMusic();
-        silderSound.value = SaveFile.GetSound();*/
-    }
+   
     // Start is called before the first frame update
     void Start()
     {
-        //LoadData();
         buttonBack.onClick.AddListener(OnButtonBack);
         silderMusic.onValueChanged.AddListener(OnValueChangeMusic);
         silderSound.onValueChanged.AddListener(OnValueChangeSound);
-     // (OnDropdownGraphic)
-
     }
+    
     private void OnButtonBack()
     {
         gameObject.SetActive(false);
@@ -63,14 +74,11 @@ public class Setting : FrameBase
 
     private void OnValueChangeMusic(float value)
     {
-      
-      
+        SaveFile.Intance.SetDataMusic(value);
     }
     private void OnValueChangeSound(float value)
     {
-       
-      
-
+        SaveFile.Intance.SetDataSound(value);
     }
     private void Init()
     {
@@ -102,9 +110,12 @@ public class Setting : FrameBase
             /*SaveFile.dataSetting.indexGraphic = DropdownLanguage.value;
             SaveFile.SaveData();*/
         });
+       
+           
+       
 
 
     }
     // Update is called once per frame
-   
+
 }

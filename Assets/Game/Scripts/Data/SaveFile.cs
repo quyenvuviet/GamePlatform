@@ -6,21 +6,32 @@ using UnityEngine;
 
 public class SaveFile : MonoBehaviour
 {
-   /* public DataSetting dataSetting;
+    [SerializeField]
+    public DataSetting DataSetting { get; set; }
+    public static SaveFile Intance;
+
     private void Awake()
     {
-        dataSetting = GetComponent<DataSetting>();
+        LoadData();
+        if (Intance == null)
+        {
+            Intance = this;
+        }
+        else return;
     }
     // Start is called before the first frame update
     void Start()
     {
-        LoadData();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        /*if (DataSetting == null)
+        {
+            DataSetting = new DataSetting()
+            {
+                Music = 1,
+                Sound =1,
+                indexGraphic =1,
+                indexLengauge =1,
+            };
+        }*/
     }
     public void LoadData()
     {
@@ -30,32 +41,50 @@ public class SaveFile : MonoBehaviour
         {
             File.WriteAllText(filePath,"");
         }
-        dataSetting = JsonUtility.FromJson<DataSetting>(File.ReadAllText(filePath));
+        DataSetting = JsonUtility.FromJson<DataSetting>(File.ReadAllText(filePath));
     }
     public void SaveData()
     {
         string file = "data.json";
         string filePath =Path.Combine(Application.persistentDataPath,file);
-        string  data = JsonUtility.ToJson(dataSetting);
+        string  data = JsonUtility.ToJson(DataSetting);
         File.WriteAllText(filePath, data);
         Debug.Log(filePath);
 
     }
+    public void OnApplicationPause(bool pause)
+    {
+        SaveData();
+    }
+    public void OnApplicationQuit()
+    {
+        SaveData();
+    }
+    public void SetDataSound(float value)
+    {
+        DataSetting.Sound = value;
+        SaveData();
+    }
+    public void SetDataMusic(float value)
+    {
+        DataSetting.Music = value;
+        SaveData();
+    }
     public float GetSound()
     {
-        return dataSetting.Sound;
+        return DataSetting.Sound ;
     }
     public float GetMusic()
     {
-        return dataSetting.Music;
+        return DataSetting.Music;
     }
     public int GetIndexGraphic()
     {
-        return dataSetting.indexGraphic;
+        return DataSetting.indexGraphic;
     }
     public int GetLanguage()
     {
-        return dataSetting.indexLengauge;
-    }*/
+        return DataSetting.indexLengauge;
+    }
 
 }
