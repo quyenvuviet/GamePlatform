@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SaveFile : MonoBehaviour
 {
-    public DataSetting dataSetting;
+   /* public DataSetting dataSetting;
     private void Awake()
     {
         dataSetting = GetComponent<DataSetting>();
@@ -56,6 +56,6 @@ public class SaveFile : MonoBehaviour
     public int GetLanguage()
     {
         return dataSetting.indexLengauge;
-    }
+    }*/
 
 }
