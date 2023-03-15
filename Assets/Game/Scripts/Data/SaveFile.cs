@@ -8,6 +8,7 @@ public class SaveFile : MonoBehaviour
 {
     [SerializeField]
     public DataSetting DataSetting { get; set; }
+   // public List<DataSetting> DataSettings { get; set; }
     public static SaveFile Intance;
 
     private void Awake()
@@ -22,16 +23,16 @@ public class SaveFile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*if (DataSetting == null)
+        if (DataSetting == null)
         {
             DataSetting = new DataSetting()
             {
                 Music = 1,
-                Sound =1,
-                indexGraphic =1,
-                indexLengauge =1,
+                Sound = 1,
+                indexGraphic = 1,
+                indexLengauge = 1,
             };
-        }*/
+        }
     }
     public void LoadData()
     {
@@ -63,6 +64,7 @@ public class SaveFile : MonoBehaviour
     public void SetDataSound(float value)
     {
         DataSetting.Sound = value;
+        Debug.Log(" DataSetting.Sound " + DataSetting.Sound +" "+value);
         SaveData();
     }
     public void SetDataMusic(float value)
