@@ -223,33 +223,5 @@ namespace Game.Scripts.player
             AnimationData.state.SetAnimation(0, name, loop);
             currentAnimation = name;
         }
-       
-        /// <summary>
-        /// ckeck va ch?m vs viên g?ch
-        /// </summary>
-        private void ckeck()
-        {
-
-        }
-
-        /// <summary>
-        /// n?u d? phím thì s? ch?y nhanh
-        /// </summary>
-        private void inputSpeedRun()
-        {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                houderInput += Time.deltaTime;
-                if (houderInput < ckeckHouderInputAttack)
-                {
-                    canAttack();
-                }
-                else
-                {
-                    this.speed = speed * 1.5f;
-                }
-            }
-        }
-
     }
 }
