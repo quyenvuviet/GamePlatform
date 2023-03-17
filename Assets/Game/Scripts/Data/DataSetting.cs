@@ -9,13 +9,20 @@ namespace Assets.Game.Scripts.Data
 {
 
     //  [CreateAssetMenu(fileName = "ItemDataSetting", menuName = "Game/Setting")]
-    [Serializable]
-    public class DataSetting 
+    public class DataSetting
     {
-        public float Sound { get; set; } = 50;
-        public float Music { get; set; } = 50;
-        public int indexGraphic { get; set; } = 1;
-        public int indexLengauge { get; set;} = 1;
-
+        public float Sound;
+        public float Music;
+        public int indexGraphic;
+        public int indexLengauge;
+        public void SetSound(float sound)
+        {
+           this.Sound = sound;
         }
+        public void SetMusicd(float Music)
+        {
+            this.Music = Music;
+        }
+
+    }
 }

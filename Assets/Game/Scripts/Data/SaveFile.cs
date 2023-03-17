@@ -63,13 +63,13 @@ public class SaveFile : MonoBehaviour
     }
     public void SetDataSound(float value)
     {
-        DataSetting.Sound = value;
+        DataSetting.SetSound(value);
         Debug.Log(" DataSetting.Sound " + DataSetting.Sound +" "+value);
         SaveData();
     }
     public void SetDataMusic(float value)
     {
-        DataSetting.Music = value;
+        DataSetting.SetMusicd(value);
         SaveData();
     }
     public float GetSound()

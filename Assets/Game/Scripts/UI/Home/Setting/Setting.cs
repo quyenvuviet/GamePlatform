@@ -50,7 +50,7 @@ public class Setting : FrameBase
     private void Awake()
     {
         Init();
-        gameObject.SetActive(false);
+       // gameObject.SetActive(false);
         silderMusic.value = SaveFile.Intance.GetMusic();
         silderSound.value = SaveFile.Intance.GetSound();
     }

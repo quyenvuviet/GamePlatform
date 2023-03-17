@@ -1,10 +1,13 @@
 using Game.Scripts.player;
 using UnityEngine;
+using System;
+using System.Collections;
 
 namespace Game.Scripts.Enemy
 {
     public class MeleteEnemy : MonoBehaviour
     {
+        public static MeleteEnemy Instance { get; private set; }
         [SerializeField] private float AttackCoolDown;
         [SerializeField] private int _dame;
         [SerializeField] private float ranger;
@@ -14,36 +17,54 @@ namespace Game.Scripts.Enemy
         [SerializeField] private LayerMask playerLayer;
         private Animator animator;
         private Health playerHealth;
-        private EnemyPartrol enemyPartrol;
+        
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else return;
             animator = GetComponent<Animator>();
-            enemyPartrol = GetComponentInParent<EnemyPartrol>();
+           
         }
 
         private void Update()
         {
+            
             coolDownTime += Time.deltaTime;
             if (CkeckPlayerInSight())
             {
+               // enemyPartrol.enabled = false;
                 if (coolDownTime >= AttackCoolDown)
                 {
                     coolDownTime = 0;
-                    animator.SetTrigger("meteAttack");
+                    StartCoroutine(waitmove());
                 }
             }
-            if (enemyPartrol != null)
+            else
             {
-                enemyPartrol.enabled = !CkeckPlayerInSight();
+                StopCoroutine(waitmove());
             }
-        }
+            
+         EnemyPartrol.instance.gameobject(!CkeckPlayerInSight()) ;
+           // animator.SetTrigger("moving");
 
+            //enemyPartrol.enabled = true;
+
+        }
+        IEnumerator waitmove()
+        {
+            animator.SetTrigger("meteAttack");
+            yield return new WaitForEndOfFrame();
+            animator.SetTrigger("moving");
+        }
         /// <summary>
         ///  check xem co va cham vao Plaeyer hay khong
         /// </summary>
         /// <returns></returns>
-        private bool CkeckPlayerInSight()
+        public bool CkeckPlayerInSight()
         {
             RaycastHit2D hit = Physics2D.BoxCast(boxCollider2D.bounds.center + transform.right * ranger * transform.localScale.x * colloderDistance, new Vector3(boxCollider2D.bounds.size.x * ranger, boxCollider2D.bounds.size.y, boxCollider2D.bounds.size.z), 0, Vector2.left, 0, playerLayer);
             if (hit.collider != null)

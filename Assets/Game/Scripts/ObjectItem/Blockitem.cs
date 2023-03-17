@@ -71,7 +71,10 @@ public class Blockitem : MonoBehaviour
             }
             if (BlockType.DESTROYBLOCK == this.typeblock)
             {
-                ///destroyblocl
+                transform.DOMoveY(transform.position.y + maxPush, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    transform.DOMoveY(transform.position.y - maxPush, 0.2f).SetEase(Ease.Linear);
+                });
             }
             this.Pushblock();
         }

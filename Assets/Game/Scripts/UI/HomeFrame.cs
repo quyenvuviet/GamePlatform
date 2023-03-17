@@ -10,7 +10,7 @@ public class HomeFrame : FrameBase
    
 
     private void Awake() {
-        //  btn_Play.onClick.AddListener(StartGame);
+        btn_Play.onClick.AddListener(StartGame);
          btn_setting.onClick.AddListener(onlickSetting);
     }
   

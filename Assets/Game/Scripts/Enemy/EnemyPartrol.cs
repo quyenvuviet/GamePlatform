@@ -5,6 +5,7 @@ namespace Game.Scripts.Enemy
 {
     public class EnemyPartrol : MonoBehaviour
     {
+        public static EnemyPartrol instance;
         [SerializeField] private Transform leftEdge;
 
         [SerializeField] private Transform rightEdge;
@@ -16,7 +17,24 @@ namespace Game.Scripts.Enemy
         private bool moveLeft;
         private void Awake()
         {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else return;
             initScale = enemy.localScale;
+        }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+        public void hide()
+        {
+            gameObject.SetActive(false);
+        }
+        public void gameobject(bool vaule)
+        {
+            gameObject.SetActive(vaule);
         }
         private void OnDisable()
         {
@@ -24,31 +42,35 @@ namespace Game.Scripts.Enemy
         }
         private void Update()
         {
-            if (this.moveLeft)
+            if (!MeleteEnemy.Instance.CkeckPlayerInSight())
             {
-                if (this.enemy.position.x >= this.leftEdge.position.x)
+                if (this.moveLeft)
                 {
-                    this.MoveInDirection(-1);
+                    if (this.enemy.position.x >= this.leftEdge.position.x)
+                    {
+                        this.MoveInDirection(-1);
+                    }
+                    else
+                    {
+                        this.DircetionChange();
+                    }
                 }
                 else
                 {
-                    this.DircetionChange();
+
+                    if (this.enemy.position.x <= this.rightEdge.position.x)
+                    {
+                        this.MoveInDirection(1);
+                    }
+                    else
+                    {
+                        this.DircetionChange();
+                    }
+
+
                 }
             }
-            else
-            {
-
-                if (this.enemy.position.x <= this.rightEdge.position.x)
-                {
-                    this.MoveInDirection(1);
-                }
-                else
-                {
-                    this.DircetionChange();
-                }
-
-
-            }
+           
         }
        
         private void DircetionChange()

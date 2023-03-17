@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using Game.Scripts.Enemy;
+using Spine.Unity;
+using System.Security.Cryptography;
 
 namespace Game.Scripts.player
 {
@@ -14,48 +16,98 @@ namespace Game.Scripts.player
         [SerializeField] private float iFramesDuration;
         [SerializeField] private float numberOffLlashes;
         private SpriteRenderer spriteRenderer;
-        private PlayerMove player2d;
+        [SerializeField]
+        private SkeletonAnimation AnimationData;
+        private string currentAnimation = " ";
+       
+        private Animator animator;
 
-      
+
+
 
         private void Awake()
         {
           
             currentHealth = StartingHealth;
             spriteRenderer = GetComponent<SpriteRenderer>();
-            player2d = GetComponent<PlayerMove>();
+            animator = GetComponent<Animator>();
+            AnimationData = GetComponent<SkeletonAnimation>();
         }
         private void Start()
         {
             
+        }
+
+        public void SetAnination(string name, bool loop = true)
+        {
+            if (gameObject.transform.tag == "enemy")
+            {
+                animator.SetTrigger(name);
+                return;
+            }
+            else
+            {
+                if (name == this.currentAnimation)
+                {
+                    return;
+                }
+                if (AnimationData == null)
+                {
+                    return;
+                }
+                if (gameObject.transform.tag == "Player")
+                {
+                    AnimationData.state.SetAnimation(0, name, loop);
+                    currentAnimation = name;
+                }
+              
+            }
+         
+
+        }
+        IEnumerator waitdie()
+        {
+           
+            SetAnination("die");
+            yield return new WaitForSeconds(2f);
+            transform.gameObject.SetActive(false);
+            EnemyPartrol.instance.hide();
         }
         public void TakeDame(float _dame)
         {
             currentHealth = Mathf.Clamp(currentHealth - _dame, 0, StartingHealth);
             if (currentHealth > 0)
             {
-                player2d.SetAnination("idle"); 
+                SetAnination("idle"); 
                 StartCoroutine(Invunerabilyty());
             }
             else
             {
                 if (!dead)
                 {
-                    player2d.SetAnination("die");
-                    if (GetComponent<PlayerMove>() != null)
+                    if (gameObject.transform.tag == "enemy")
                     {
-                        GetComponent<PlayerMove>().enabled = false;
+                       StartCoroutine(waitdie());
+                    }
+                    else
+                    {
+                        SetAnination("die");
+                        if (GetComponent<PlayerMove>() != null)
+                        {
+                            GetComponent<PlayerMove>().enabled = false;
 
+                        }
+                        if (GetComponentInParent<EnemyPartrol>() != null)
+                        {
+                            GetComponentInParent<EnemyPartrol>().enabled = false;
+                            //  GetComponent<EnemyPartrol>().enabled = false;
+                        }
+                        if (GetComponent<MeleteEnemy>() != null)
+                        {
+                            GetComponent<MeleteEnemy>().enabled = false;
+                        }
                     }
-                    if (GetComponentInParent <EnemyPartrol> () != null)
-                    {
-                        GetComponentInParent<EnemyPartrol>().enabled = false;
-                      //  GetComponent<EnemyPartrol>().enabled = false;
-                     }
-                    if (GetComponent<MeleteEnemy>() != null)
-                    {
-                        GetComponent<MeleteEnemy>().enabled = false;
-                    }
+                   
                     
                     dead = true;
                     //todo Game Over
