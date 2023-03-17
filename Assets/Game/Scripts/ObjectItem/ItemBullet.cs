@@ -10,6 +10,7 @@ public class ItemBullet : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             gameObject.SetActive(false);
+            PlayerMove.instance.IsBullet = true;
             Debug.Log("co the ban dan");
         }
     }

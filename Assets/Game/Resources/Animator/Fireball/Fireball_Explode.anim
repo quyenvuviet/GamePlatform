@@ -84,7 +84,7 @@ AnimationClip:
   - time: 0.41666666
     functionName: Deactive
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 3c4d710c1b858f84d820bfc5414042f7, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

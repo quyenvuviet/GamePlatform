@@ -6,8 +6,8 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Controller2D))]
 public class PlayerManager : MonoBehaviour
-{
-    public float maxJumpHeight = 4;
+{ }
+/*    public float maxJumpHeight = 4;
     public float minJumpHeight = 1;
     public float timeToJumpApex = .4f;
     private float accelerationTimeAirborne = .2f;
@@ -244,4 +244,4 @@ public enum PlayerHealth
     NONE = 0,
     LOWER = 1,
     HIGHT = 2,
-}
+}*/

@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent (typeof (PlayerManager))]
 public class PlayerInput : MonoBehaviour {
-
+/*
 	PlayerManager player;
 
 	void Start () {
@@ -20,5 +20,5 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetKeyUp (KeyCode.Space)) {
 			player.OnJumpInputUp ();
 		}
-	}
+	}*/
 }

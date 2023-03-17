@@ -11,11 +11,14 @@ namespace Game.Scripts.player
         /// T?c ?? ?ánh c?a ng??i ch?i
         /// </summary>
         [SerializeField] private float AttackCoolDown;
+
         [SerializeField] private Transform FireballPos;
         [SerializeField] private GameObject Projectile;
-        [SerializeField] private GameObject[] Fireballhoder;
+        
+
         //[SerializeField] private GameObject fireball;
         private PoolManager fireBall;
+
         /// <summary>
         /// Di chuy?n c?a ng??i ch?i
         /// </summary>
@@ -28,9 +31,7 @@ namespace Game.Scripts.player
 
         private void Awake()
         {
-           
             playerMove = GetComponent<PlayerMove>();
-
         }
 
         /// <summary>
@@ -39,6 +40,7 @@ namespace Game.Scripts.player
         private void Start()
         {
         }
+
         /// <summary>
         /// hàm ???c g?i ? m?i 1 frame
         /// </summary>
@@ -57,13 +59,17 @@ namespace Game.Scripts.player
         /// </summary>
         private void Attack()
         {
+            if (PlayerMove.instance.LevelPlayer == PlayerMove.PlayerHealth.LOWER || !PlayerMove.instance.IsBullet)
+            {
+                return;
+            }
             playerMove.SetAnination("idle");
             cooldwonTime = 0;
-            var Poolfireball=Projectile.Spawn().GetComponent<Projectile>();
+            var Poolfireball = Projectile.Spawn().GetComponent<Projectile>();
             Poolfireball.OnStart();
             Poolfireball.transform.position = FireballPos.position;
             var SetDiretion = transform.localScale.x > 0 ? 1 : -1;
-            Poolfireball.GetComponent<Rigidbody2D>().AddForce((transform.localScale.x>0?1:-1)*Vector2.right* Poolfireball.speed,ForceMode2D.Impulse);
+            Poolfireball.GetComponent<Rigidbody2D>().AddForce((transform.localScale.x > 0 ? 1 : -1) * Vector2.right * Poolfireball.speed, ForceMode2D.Impulse);
             Poolfireball.transform.localScale = new Vector3(1 * SetDiretion, 1, 1);
         }
     }

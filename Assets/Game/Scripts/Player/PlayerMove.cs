@@ -1,12 +1,12 @@
-using UnityEngine;
-using System.Collections;
-using Spine;
 using Spine.Unity;
+using UnityEngine;
 
 namespace Game.Scripts.player
 {
     public partial class PlayerMove : MonoBehaviour
     {
+        public static PlayerMove instance;
+
         public enum PlayerState
         {
             NONE,
@@ -16,17 +16,20 @@ namespace Game.Scripts.player
             JUMP,
             SWIM,
         }
+
         public enum PlayerHealth
         {
             NONE = 0,
-            HIGHT = 1,
-            LOWER = 2,
+            LOWER = 1,
+            HIGHT = 2,
         }
+
         private Rigidbody2D body;
 
         [Header("=====core Player=======")]
         [SerializeField]
         private float speed;
+
         [SerializeField]
         private float maxSpeed;
 
@@ -38,20 +41,17 @@ namespace Game.Scripts.player
 
         [SerializeField]
         private float ckeckHouderInputAttack;
-        private PlayerHealth statePlayer;
-        public int levelPlayer;
+
+        private PlayerHealth levelPlayer;
         private float walljumpCoolider;
         private float horizontal;
         private Collider2D boxcollider;
-        [SerializeField] SkeletonAnimation AnimationData;
+        [SerializeField] private SkeletonAnimation AnimationData;
         private string currentAnimation = "";
         private bool isDisFaceRight;
-        public bool isBullet=false;
-        /// <summary>
-        ///  bi?n hình
-        /// </summary>
-        private bool transfigure;
-        public int LevelPlayer
+        private bool isBullet = false;
+
+        public PlayerHealth LevelPlayer
         {
             get
             {
@@ -62,6 +62,19 @@ namespace Game.Scripts.player
                 levelPlayer = value;
             }
         }
+
+        public bool IsBullet
+        {
+            get
+            {
+                return isBullet;
+            }
+            set
+            {
+                isBullet = value;
+            }
+        }
+
         [Header("=======LayerMask=========")]
         [SerializeField] private LayerMask groundLayer;
 
@@ -69,15 +82,18 @@ namespace Game.Scripts.player
 
         private void Awake()
         {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else return;
             body = GetComponent<Rigidbody2D>();
             boxcollider = GetComponent<Collider2D>();
-            levelPlayer = 1;
-
+            levelPlayer = PlayerHealth.LOWER;
         }
 
         private void Start()
         {
-
         }
 
         // Update is called once per frame
@@ -116,47 +132,40 @@ namespace Game.Scripts.player
                 body.gravityScale = 3;
                 this.Jump();
             }
-
         }
-        public void ChangerStatePlayer(PlayerHealth StateHealth)
-        {
-            switch (StateHealth)
-            {
-                case PlayerHealth.NONE:
-                    levelPlayer = 0;
-                    break;
-                case PlayerHealth.HIGHT:
-                    levelPlayer = 2;
-                    break;
-                case PlayerHealth.LOWER:
-                    levelPlayer = 1;
-                    break;
-                default:
-                    break;
-            }
 
-        }
         private void MoveStop()
         {
             speed = 0;
         }
+
         private void Distation()
         {
-
         }
+
+        private float GetLevelPlayer(PlayerHealth playerHealth)
+        {
+            if (playerHealth == PlayerHealth.HIGHT)
+            {
+                return 1.4f;
+            }
+            return (int)levelPlayer;
+        }
+
         /// <summary>
-        ///  
+        ///
         /// </summary>
         private void MoveLeft()
         {
             isDisFaceRight = false;
-            transform.localScale = new Vector3(-1 * levelPlayer, 1*levelPlayer, 1);
+            transform.localScale = new Vector3(-1 * GetLevelPlayer(levelPlayer), 1 * GetLevelPlayer(levelPlayer), 1);
             speed = maxSpeed;
         }
+
         private void MoveRight()
         {
             isDisFaceRight = true;
-            transform.localScale = new Vector3(1 * levelPlayer, 1* levelPlayer, 1);
+            transform.localScale = new Vector3(1 * GetLevelPlayer(levelPlayer), 1 * GetLevelPlayer(levelPlayer), 1);
             speed = maxSpeed;
         }
 
@@ -168,7 +177,6 @@ namespace Game.Scripts.player
             if (this.isGround())
             {
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
-
             }
             else if (this.onWall() && !this.isGround())
             {
@@ -211,7 +219,7 @@ namespace Game.Scripts.player
         /// <returns></returns>
         public bool canAttack()
         {
-            return horizontal == 0 && isGround();
+            return horizontal == 0 && isGround() && isBullet;
         }
 
         public void SetAnination(string name, bool loop = true)

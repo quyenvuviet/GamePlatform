@@ -52,7 +52,7 @@ public class ItemLevelUp : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             gameObject.SetActive(false);
-            player.LevelPlayer = 2;
+            player.LevelPlayer = PlayerHealth.HIGHT;
         }
     }
     /// <summary>
