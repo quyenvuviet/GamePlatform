@@ -45,10 +45,11 @@ namespace Game.Scripts.Enemy
             }
             else
             {
+                animator.SetTrigger("moving");
                 StopCoroutine(waitmove());
             }
             
-         EnemyPartrol.instance.gameobject(!CkeckPlayerInSight()) ;
+              EnemyPartrol.instance.enabled= (!CkeckPlayerInSight()) ;
            // animator.SetTrigger("moving");
 
             //enemyPartrol.enabled = true;
@@ -58,7 +59,7 @@ namespace Game.Scripts.Enemy
         {
             animator.SetTrigger("meteAttack");
             yield return new WaitForEndOfFrame();
-            animator.SetTrigger("moving");
+           animator.SetTrigger("moving");
         }
         /// <summary>
         ///  check xem co va cham vao Plaeyer hay khong
@@ -86,6 +87,7 @@ namespace Game.Scripts.Enemy
             {
                 playerHealth.TakeDame(_dame);
             }
+          
         }
     }
 }
