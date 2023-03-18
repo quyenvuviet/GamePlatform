@@ -55,11 +55,10 @@ namespace Game.Scripts.player
                 {
                     return;
                 }
-                if (gameObject.transform.tag == "Player")
-                {
-                    AnimationData.state.SetAnimation(0, name, loop);
-                    currentAnimation = name;
-                }
+                
+                AnimationData.state.SetAnimation(0, name, loop);
+                currentAnimation = name;
+               
               
             }
          
