@@ -72,7 +72,7 @@ TextureImporter:
       213: 5391578549965902656
     second: tile-game_gach_22
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -93,6 +93,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -131,6 +132,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -170,6 +172,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -676,6 +690,30 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      tile-game_gach_0: -3139918454276343531
+      tile-game_gach_1: -1796439316098194191
+      tile-game_gach_10: 5194300648835510247
+      tile-game_gach_11: -8121959519086602244
+      tile-game_gach_12: -2540138949417582481
+      tile-game_gach_13: -6530768712538299591
+      tile-game_gach_14: -8912076396186075746
+      tile-game_gach_15: -2533574379220298218
+      tile-game_gach_16: -7233126736608612776
+      tile-game_gach_17: -6416048088043057389
+      tile-game_gach_18: 8987869096088744294
+      tile-game_gach_19: 670761424823317980
+      tile-game_gach_2: 6726241457932259141
+      tile-game_gach_20: 3813384844858859814
+      tile-game_gach_21: -3998791070507058146
+      tile-game_gach_22: 5391578549965902656
+      tile-game_gach_3: -2812285035918716888
+      tile-game_gach_4: 500149821645616681
+      tile-game_gach_5: -8110879428791838634
+      tile-game_gach_6: -8344220924913501876
+      tile-game_gach_7: -2656250211472595579
+      tile-game_gach_8: -7028261155266033719
+      tile-game_gach_9: -128737876774307978
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
