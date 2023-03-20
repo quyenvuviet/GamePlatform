@@ -9,6 +9,8 @@ using STU;
 public class SceneManager : Singleton<SceneManager> {
     public const string SCENE_LOGO = "Logo";
     public const string SCENE_HOME = "Home";
+
+
     public const string SCENE_GAME = "Game";
 
     [SerializeField] private Image fade;

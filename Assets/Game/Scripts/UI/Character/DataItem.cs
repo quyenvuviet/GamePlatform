@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataItem : MonoBehaviour
+public class DataItem : ScriptableObject
 {
+
     // Start is called before the first frame update
     void Start()
     {

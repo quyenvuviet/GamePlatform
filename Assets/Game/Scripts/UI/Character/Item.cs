@@ -8,8 +8,15 @@ using DG.Tweening;
 
 public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandler 
 {
-    [SerializeField] private ItemID itemID;
+    // [SerializeField] private ItemID itemID;
+    public bool dragOnSurfaces = true;
+   // private GameObject m_DraggingIcon;
+    private RectTransform m_DraggingPlane;
+    [SerializeField] private ItemData Items;
     [SerializeField] private int amount;
+    [SerializeField] private Image imageItem;
+    [SerializeField] private TextMeshProUGUI TextNumber;
+    //Lưu vị trí ban đầu của n 
    
     /// <summary>
     /// bắt đầu cầm 
@@ -17,15 +24,41 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     /// <param name="eventData"></param>
     public void OnBeginDrag(PointerEventData eventData)
     {
-        UpdatePOS();
+        var canvas = FindInParents<Canvas>(gameObject);
+        if (canvas == null)
+            return;
+        // We have clicked something that can be dragged.
+        // What we want to do is create an icon for this.
+        // m_DraggingIcon = new GameObject("icon");
+
+        transform.SetParent(canvas.transform, false);
+        transform.SetAsLastSibling();
+
+       // var image = m_DraggingIcon.AddComponent<Image>();
+
+        //image.sprite = GetComponent<Image>().sprite;
+        // image.SetNativeSize();
+
+        if (dragOnSurfaces)
+            m_DraggingPlane = transform as RectTransform;
+        else
+            m_DraggingPlane = canvas.transform as RectTransform;
+
+        SetDraggedPosition(eventData);
+    }
+    private void Start()
+    {
+        imageItem.sprite = Items.Icon;
+        TextNumber.text = Items.Number.ToString();
     }
     /// <summary>
     /// update liên tục cái item
     /// </summary>
     /// <param name="eventData"></param>
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag(PointerEventData data)
     {
-        UpdatePOS();
+        if (transform != null)
+            SetDraggedPosition(data);
     }
     /// <summary>
     /// sau khi kết thúc thì làm gì 
@@ -34,9 +67,15 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     /// <exception cref="System.NotImplementedException"></exception>
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("endondrag00");
+        if (transform != null)
+        {
+
+            return;
+          //  Destroy(transform);
+        }
+        
     }
-    public ItemID ItemID => itemID;
+    public ItemID ItemID => Items.ItemID;
     public int Amount => amount;
 
     public ItemData ItemData
@@ -47,13 +86,25 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
             {
                 return null;
             }
-            return DataManager.Instance.GetItemDataByID(itemID);
+            return DataManager.Instance.GetItemDataByID(Items.ItemID);
         }
     }
+    private void SetDraggedPosition(PointerEventData data)
+    {
+        if (dragOnSurfaces && data.pointerEnter != null && data.pointerEnter.transform as RectTransform != null)
+            m_DraggingPlane = data.pointerEnter.transform as RectTransform;
 
+        var rt = transform.GetComponent<RectTransform>();
+        Vector3 globalMousePos;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlane, data.position, data.pressEventCamera, out globalMousePos))
+        {
+            rt.position = globalMousePos;
+            rt.rotation = m_DraggingPlane.rotation;
+        }
+    }
     public Item(ItemID itemID, int amount)
     {
-        this.itemID = itemID;
+        this.Items.ItemID = itemID;
         this.amount = amount;
     }
 
@@ -61,21 +112,29 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     {
         this.amount += amout;
     }
-    /// <summary>
-    /// Item đi theo con chuột
-    /// </summary>
-    private void UpdatePOS()
-    {
-       var mouse = Input.mousePosition;
-        transform.position = mouse;
-    }
 
 
 
     public static Item operator *(Item a, int b)
     {
         int amoutN = a.amount * b;
-        Item c = new Item(a.itemID, amoutN);
+        Item c = new Item(a.Items.ItemID, amoutN);
         return c;
+    }
+    static public T FindInParents<T>(GameObject go) where T : Component
+    {
+        if (go == null) return null;
+        var comp = go.GetComponent<T>();
+
+        if (comp != null)
+            return comp;
+
+        Transform t = go.transform.parent;
+        while (t != null && comp == null)
+        {
+            comp = t.gameObject.GetComponent<T>();
+            t = t.parent;
+        }
+        return comp;
     }
 }
