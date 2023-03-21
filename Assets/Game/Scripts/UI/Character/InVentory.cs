@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class InVentory : MonoBehaviour
 {
     public Item _item;
-    public List<Item> listItems;
+    private List<Item> listItems;
+    public ButtonItem ButtonItems;
     public Button buttonClose;
+    public int countBoxItem;
+    public GameObject clone;
 
     private void Awake()
     {
@@ -16,7 +19,13 @@ public class InVentory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        for(int i = 0; i < 13; i++)
+        {
+          // 
+            var isss= Instantiate(ButtonItems, clone.transform);
+            ButtonItems.gameObject.SetActive(false);
+            isss.transform.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame

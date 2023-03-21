@@ -15,7 +15,7 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     [SerializeField] private ItemData Items;
     [SerializeField] private int amount;
     [SerializeField] private Image imageItem;
-    [SerializeField] private TextMeshProUGUI TextNumber;
+
     //Lưu vị trí ban đầu của n 
    
     /// <summary>
@@ -49,7 +49,7 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     private void Start()
     {
         imageItem.sprite = Items.Icon;
-        TextNumber.text = Items.Number.ToString();
+       
     }
     /// <summary>
     /// update liên tục cái item
@@ -107,6 +107,7 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
         this.Items.ItemID = itemID;
         this.amount = amount;
     }
+   
 
     public void Add(int amout)
     {
@@ -137,4 +138,9 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
         }
         return comp;
     }
+/*    private RaycastHit2D CastRay()
+    {
+        Vector3  worldMousePOsFar = Camera.main.ViewportToScreenPoint()
+        Physics2D.Raycast()
+    }*/
 }
