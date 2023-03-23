@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,21 +15,21 @@ public class InVentory : MonoBehaviour
     {
         _item = GetComponent<Item>();
     }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        for(int i = 0; i < 13; i++)
+        for (int i = 0; i < 13; i++)
         {
-          // 
-            var isss= Instantiate(ButtonItems, clone.transform);
+            //
+            var isss = Instantiate(ButtonItems, clone.transform);
             ButtonItems.gameObject.SetActive(false);
             isss.transform.gameObject.SetActive(true);
         }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
 }

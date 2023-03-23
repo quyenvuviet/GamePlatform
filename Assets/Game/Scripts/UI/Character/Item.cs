@@ -1,25 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
+using UnityEngine.UI;
 
-public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandler 
+public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IDropHandler 
 {
     // [SerializeField] private ItemID itemID;
     public bool dragOnSurfaces = true;
-   // private GameObject m_DraggingIcon;
+
+    public static Item instance;
+
+    // private GameObject m_DraggingIcon;
     private RectTransform m_DraggingPlane;
+
     [SerializeField] private ItemData Items;
     [SerializeField] private int amount;
     [SerializeField] private Image imageItem;
+    private CanvasGroup canvasGroup;
+    public Canvas Canvas;
+    private Vector3 beginMove;
 
-    //Lưu vị trí ban đầu của n 
-   
+    public Vector3 BeginMove
+    {
+        get { return beginMove; }
+        set { beginMove = value; }
+    }
+
+    public override void Awake()
+    {
+        base.Awake();
+        //  beginMove = transform.position;
+    }
+
     /// <summary>
-    /// bắt đầu cầm 
+    /// bắt đầu cầm
     /// </summary>
     /// <param name="eventData"></param>
     public void OnBeginDrag(PointerEventData eventData)
@@ -27,30 +40,28 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
         var canvas = FindInParents<Canvas>(gameObject);
         if (canvas == null)
             return;
-        // We have clicked something that can be dragged.
-        // What we want to do is create an icon for this.
-        // m_DraggingIcon = new GameObject("icon");
 
         transform.SetParent(canvas.transform, false);
         transform.SetAsLastSibling();
-
-       // var image = m_DraggingIcon.AddComponent<Image>();
-
-        //image.sprite = GetComponent<Image>().sprite;
-        // image.SetNativeSize();
 
         if (dragOnSurfaces)
             m_DraggingPlane = transform as RectTransform;
         else
             m_DraggingPlane = canvas.transform as RectTransform;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = .6f;
 
-        SetDraggedPosition(eventData);
+        SetDraggedPosition(eventData, ItemID.COIN);
     }
-    private void Start()
+
+    public override void Start()
     {
+        base.Start();
         imageItem.sprite = Items.Icon;
-       
+        canvasGroup = GetComponent<CanvasGroup>();
+        beginMove = gameObject.transform.position;
     }
+
     /// <summary>
     /// update liên tục cái item
     /// </summary>
@@ -58,23 +69,26 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
     public void OnDrag(PointerEventData data)
     {
         if (transform != null)
-            SetDraggedPosition(data);
+            SetDraggedPosition(data, ItemID.COIN);
     }
+
     /// <summary>
-    /// sau khi kết thúc thì làm gì 
+    /// sau khi kết thúc thì làm gì
     /// </summary>
     /// <param name="eventData"></param>
     /// <exception cref="System.NotImplementedException"></exception>
     public void OnEndDrag(PointerEventData eventData)
     {
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1f;
+
         if (transform != null)
         {
-
             return;
-          //  Destroy(transform);
+            //  Destroy(transform);
         }
-        
     }
+
     public ItemID ItemID => Items.ItemID;
     public int Amount => amount;
 
@@ -89,32 +103,57 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
             return DataManager.Instance.GetItemDataByID(Items.ItemID);
         }
     }
-    private void SetDraggedPosition(PointerEventData data)
+
+    private void SetDraggedPosition(PointerEventData data, ItemID ItemID)
     {
         if (dragOnSurfaces && data.pointerEnter != null && data.pointerEnter.transform as RectTransform != null)
             m_DraggingPlane = data.pointerEnter.transform as RectTransform;
 
         var rt = transform.GetComponent<RectTransform>();
         Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlane, data.position, data.pressEventCamera, out globalMousePos))
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlane, data.position, data.enterEventCamera, out globalMousePos))
         {
+            /*if (ckeckButtonBox())
+            {
+            }*/
+            //  m_DraggingPlane.anchoredPosition += data.delta / Canvas.scaleFactor;
             rt.position = globalMousePos;
             rt.rotation = m_DraggingPlane.rotation;
         }
     }
+
     public Item(ItemID itemID, int amount)
     {
         this.Items.ItemID = itemID;
         this.amount = amount;
     }
-   
 
     public void Add(int amout)
     {
         this.amount += amout;
     }
 
+    //ckeck xem có phải cái box nếu n mà none thì cái nào cũng có thể hit được nếu không phải thì sẽ chả vễ chỗ cũ
+    private bool ckeckButtonBox()
+    {
+        this.UpdateRaycastOrigins();
 
+        for (int i = 0; i < horizontalRayCount; i++)
+        {
+            Vector2 rayOrigin = raycastOrigins.bottomLeft;
+            rayOrigin += Vector2.up * (horizontalRaySpacing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right, 0, collisionMask);
+
+            Debug.DrawRay(rayOrigin, Vector2.right, Color.red);
+
+            if (hit)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static Item operator *(Item a, int b)
     {
@@ -122,7 +161,8 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
         Item c = new Item(a.Items.ItemID, amoutN);
         return c;
     }
-    static public T FindInParents<T>(GameObject go) where T : Component
+
+    public static T FindInParents<T>(GameObject go) where T : Component
     {
         if (go == null) return null;
         var comp = go.GetComponent<T>();
@@ -138,9 +178,14 @@ public class Item :MonoBehaviour, IBeginDragHandler,IDragHandler, IEndDragHandle
         }
         return comp;
     }
-/*    private RaycastHit2D CastRay()
+
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Vector3  worldMousePOsFar = Camera.main.ViewportToScreenPoint()
-        Physics2D.Raycast()
-    }*/
+        Debug.Log("onpionerdoewn");
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        Debug.Log("OnDrop");
+    }
 }

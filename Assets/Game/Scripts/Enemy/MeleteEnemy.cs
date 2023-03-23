@@ -1,7 +1,6 @@
 using Game.Scripts.player;
-using UnityEngine;
-using System;
 using System.Collections;
+using UnityEngine;
 
 namespace Game.Scripts.Enemy
 {
@@ -17,7 +16,6 @@ namespace Game.Scripts.Enemy
         [SerializeField] private LayerMask playerLayer;
         private Animator animator;
         private Health playerHealth;
-        
 
         private void Awake()
         {
@@ -27,16 +25,14 @@ namespace Game.Scripts.Enemy
             }
             else return;
             animator = GetComponent<Animator>();
-           
         }
 
         private void Update()
         {
-            
             coolDownTime += Time.deltaTime;
             if (CkeckPlayerInSight())
             {
-               // enemyPartrol.enabled = false;
+                // enemyPartrol.enabled = false;
                 if (coolDownTime >= AttackCoolDown)
                 {
                     coolDownTime = 0;
@@ -48,19 +44,20 @@ namespace Game.Scripts.Enemy
                 animator.SetTrigger("moving");
                 StopCoroutine(waitmove());
             }
-            
-              EnemyPartrol.instance.enabled= (!CkeckPlayerInSight()) ;
-           // animator.SetTrigger("moving");
+
+            EnemyPartrol.instance.enabled = (!CkeckPlayerInSight());
+            // animator.SetTrigger("moving");
 
             //enemyPartrol.enabled = true;
-
         }
-        IEnumerator waitmove()
+
+        private IEnumerator waitmove()
         {
             animator.SetTrigger("meteAttack");
             yield return new WaitForEndOfFrame();
-           animator.SetTrigger("moving");
+            animator.SetTrigger("moving");
         }
+
         /// <summary>
         ///  check xem co va cham vao Plaeyer hay khong
         /// </summary>
@@ -87,7 +84,6 @@ namespace Game.Scripts.Enemy
             {
                 playerHealth.TakeDame(_dame);
             }
-          
         }
     }
 }

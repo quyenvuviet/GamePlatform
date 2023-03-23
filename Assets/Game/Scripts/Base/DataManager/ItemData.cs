@@ -1,27 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "ItemData", menuName = "Game/ItemData")]
-public class ItemData : ScriptableObject {
+
+public abstract class ItemData : ScriptableObject
+{
     [SerializeField] private ItemID itemID;
     [SerializeField] private Sprite icon;
+    [SerializeField] private GameObject prefab;
+    [TextArea(15,20)]
     [SerializeField] private string description;
-    [SerializeField] private int number;
+  
+
     public ItemID ItemID
     {
         get
         {
-           return itemID;
+            return itemID;
         }
         set
         {
             itemID = value;
         }
     }
-   
+
     public Sprite Icon => icon;
     public string Description => description;
-    public int Number => number;
+    public GameObject Pefab => prefab;
+ 
 }

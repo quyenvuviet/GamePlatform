@@ -12,6 +12,7 @@ public class ItemLevelUp : MonoBehaviour
 
     [SerializeField]
     private LayerMask groudMask;
+
     [SerializeField]
     private LayerMask wallMask;
 
@@ -20,8 +21,10 @@ public class ItemLevelUp : MonoBehaviour
 
     [SerializeField]
     private Vector3 dir;
+
     [SerializeField]
     private PlayerMove player;
+
     private void Awake()
     {
         player.GetComponent<PlayerMove>();
@@ -34,7 +37,7 @@ public class ItemLevelUp : MonoBehaviour
 
     private void Update()
     {
-        if ( Horizonal()||Horizonal1())
+        if (Horizonal() || Horizonal1())
         {
             ChangeDir();
         }
@@ -44,7 +47,6 @@ public class ItemLevelUp : MonoBehaviour
     public void MoveItem()
     {
         transform.Translate(dir * Time.deltaTime * speed);
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -55,11 +57,12 @@ public class ItemLevelUp : MonoBehaviour
             player.LevelPlayer = PlayerHealth.HIGHT;
         }
     }
+
     /// <summary>
     /// chieu doc
     /// </summary>
     /// <returns></returns>
-    private void  vertical()
+    private void vertical()
     {
         CalulateDiretions();
         RaycastHit2D raycast2dVertical = CommonDebug.RayCast(transform.position, direction[2], 0.3f, groudMask, Color.red, true);
@@ -68,6 +71,7 @@ public class ItemLevelUp : MonoBehaviour
             ChangeDir();
         }
     }
+
     /// <summary>
     ///  chieu dai
     /// </summary>
@@ -77,12 +81,14 @@ public class ItemLevelUp : MonoBehaviour
         RaycastHit2D raycast2dHozizonal = CommonDebug.RayCast(transform.position, direction[0], 0.3f, wallMask, Color.green, true);
         return raycast2dHozizonal.collider != null;
     }
+
     private bool Horizonal1()
     {
         CalulateDiretions();
         RaycastHit2D raycast2dHozizonal = CommonDebug.RayCast(transform.position, direction[1], 0.3f, wallMask, Color.green, true);
         return raycast2dHozizonal.collider != null;
     }
+
     private bool CkeckGound()
     {
         CalulateDiretions();
@@ -94,7 +100,6 @@ public class ItemLevelUp : MonoBehaviour
         }
         return false;
     }
-
 
     private void ChangeDir()
     {

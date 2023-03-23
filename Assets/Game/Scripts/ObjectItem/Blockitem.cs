@@ -104,8 +104,7 @@ public class Blockitem : MonoBehaviour
         {
             transform.DOMoveY(transform.position.y - maxPush, 0.2f).SetEase(Ease.Linear);
         });
-        yield return  new WaitForSeconds(2f);
-       
+        yield return new WaitForSeconds(2f);
     }
 
     private IEnumerator IEBonusitem()
@@ -122,11 +121,10 @@ public class Blockitem : MonoBehaviour
                 block.transform.DOMoveY(transform.position.y + 1.5f, 0.25f).OnComplete(() =>
                 {
                     block.transform.DOMoveY(transform.position.y, 0.5f);
-                     block.SetActive(false);
-                  //  Destroy(gameObject);
+                    block.SetActive(false);
+                    //  Destroy(gameObject);
 
                     //+Coin
-
                 });
                 if (numberHit == 0)
                 {

@@ -1,8 +1,7 @@
-using UnityEngine;
-using System.Collections;
 using Game.Scripts.Enemy;
 using Spine.Unity;
-using System.Security.Cryptography;
+using System.Collections;
+using UnityEngine;
 
 namespace Game.Scripts.player
 {
@@ -10,32 +9,33 @@ namespace Game.Scripts.player
     {
         [Header("Health")]
         [SerializeField] private float StartingHealth;
+
         public float currentHealth { get; set; }
         private bool dead;
+
         [Header("iFrames")]
         [SerializeField] private float iFramesDuration;
+
         [SerializeField] private float numberOffLlashes;
         private SpriteRenderer spriteRenderer;
+
         [SerializeField]
         private SkeletonAnimation AnimationData;
+
         private string currentAnimation = " ";
-       
+
         private Animator animator;
-
-
-
 
         private void Awake()
         {
-          
             currentHealth = StartingHealth;
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             AnimationData = GetComponent<SkeletonAnimation>();
         }
+
         private void Start()
         {
-            
         }
 
         public void SetAnination(string name, bool loop = true)
@@ -55,29 +55,26 @@ namespace Game.Scripts.player
                 {
                     return;
                 }
-                
+
                 AnimationData.state.SetAnimation(0, name, loop);
                 currentAnimation = name;
-               
-              
             }
-         
-
         }
-        IEnumerator waitdie()
+
+        private IEnumerator waitdie()
         {
-           
             SetAnination("die");
             yield return new WaitForSeconds(2f);
             transform.gameObject.SetActive(false);
             EnemyPartrol.instance.hide();
         }
+
         public void TakeDame(float _dame)
         {
             currentHealth = Mathf.Clamp(currentHealth - _dame, 0, StartingHealth);
             if (currentHealth > 0)
             {
-                SetAnination("idle"); 
+                SetAnination("idle");
                 StartCoroutine(Invunerabilyty());
             }
             else
@@ -86,7 +83,7 @@ namespace Game.Scripts.player
                 {
                     if (gameObject.transform.tag == "enemy")
                     {
-                       StartCoroutine(waitdie());
+                        StartCoroutine(waitdie());
                     }
                     else
                     {
@@ -94,7 +91,6 @@ namespace Game.Scripts.player
                         if (GetComponent<PlayerMove>() != null)
                         {
                             GetComponent<PlayerMove>().enabled = false;
-
                         }
                         if (GetComponentInParent<EnemyPartrol>() != null)
                         {
@@ -106,31 +102,29 @@ namespace Game.Scripts.player
                             GetComponent<MeleteEnemy>().enabled = false;
                         }
                     }
-                   
-                    
+
                     dead = true;
                     //todo Game Over
                 }
             }
         }
+
         public void AddHeath(float _values)
         {
             currentHealth = Mathf.Clamp(currentHealth + _values, 0, StartingHealth);
-
         }
-       private IEnumerator Invunerabilyty()
+
+        private IEnumerator Invunerabilyty()
         {
-            
             Physics2D.IgnoreLayerCollision(8, 9, true);
-            for(int i = 0; i < numberOffLlashes; i++)
+            for (int i = 0; i < numberOffLlashes; i++)
             {
                 spriteRenderer.color = new Color(1, 0, 0, 0.5f);
-                yield return new WaitForSeconds(iFramesDuration/(numberOffLlashes*2));
+                yield return new WaitForSeconds(iFramesDuration / (numberOffLlashes * 2));
                 spriteRenderer.color = Color.white;
             }
             Physics2D.IgnoreLayerCollision(8, 9, false);
             yield return null;
         }
-
     }
 }

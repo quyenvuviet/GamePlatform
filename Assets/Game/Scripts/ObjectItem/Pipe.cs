@@ -1,39 +1,43 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
     [SerializeField]
     private bool isGetDown;
+
     private bool isTagerPlayer;
+
     [SerializeField]
     private GameObject POSDir;
-    CameraController cameraController;
+
+    private CameraController cameraController;
+
     private void Start()
     {
-        
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player"&&isGetDown)
+        if (collision.gameObject.tag == "Player" && isGetDown)
         {
             Debug.Log("hien nut");
             StartCoroutine(Offtaget());
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-            Debug.Log("dong");
+        Debug.Log("dong");
     }
+
     private void MovePlayerPosPipe()
     {
-        //OSDir.transform.position 
+        //OSDir.transform.position
     }
+
     private IEnumerator Offtaget()
     {
-        
-       
         yield return new WaitForSeconds(2f);
     }
 }

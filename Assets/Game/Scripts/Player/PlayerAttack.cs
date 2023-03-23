@@ -14,7 +14,6 @@ namespace Game.Scripts.player
 
         [SerializeField] private Transform FireballPos;
         [SerializeField] private GameObject Projectile;
-        
 
         //[SerializeField] private GameObject fireball;
         private PoolManager fireBall;
