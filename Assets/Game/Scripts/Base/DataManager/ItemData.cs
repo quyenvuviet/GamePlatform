@@ -1,29 +1,24 @@
 using UnityEngine;
+using System;
 
 
 public abstract class ItemData : ScriptableObject
 {
-    [SerializeField] private ItemID itemID;
-    [SerializeField] private Sprite icon;
-    [SerializeField] private GameObject prefab;
+     public int Id;
+     public ItemID itemID;
+     public Sprite uiDisPlay;
     [TextArea(15,20)]
-    [SerializeField] private string description;
-  
-
-    public ItemID ItemID
-    {
-        get
-        {
-            return itemID;
-        }
-        set
-        {
-            itemID = value;
-        }
-    }
-
-    public Sprite Icon => icon;
-    public string Description => description;
-    public GameObject Pefab => prefab;
+    public string description;
  
+ 
+}
+[Serializable]
+public class ItemObject{
+    public int ID;
+    public string Name;
+    public ItemObject(ItemData item)
+    {
+        Name = item.name;
+        ID = item.Id;
+    }
 }

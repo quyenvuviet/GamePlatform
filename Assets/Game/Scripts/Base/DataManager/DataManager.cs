@@ -92,7 +92,7 @@ public class DataManager : Singleton<DataManager> {
         }
     }
     public ItemData GetItemDataByID(ItemID itemID) {
-        ItemData result = lstItem.Find(x => x.ItemID == itemID);
+        ItemData result = lstItem.Find(x => x.itemID == itemID);
         return result;
     }
     public List<ItemData> GetItemDataByRank(int startID, int endID) {
@@ -101,7 +101,7 @@ public class DataManager : Singleton<DataManager> {
             return lstResult;
         }
         foreach(var item in lstResult) {
-            if((int)item.ItemID >= startID && (int)item.ItemID <= endID) {
+            if((int)item.itemID >= startID && (int)item.itemID <= endID) {
                 lstResult.Add(item);
             }
         }

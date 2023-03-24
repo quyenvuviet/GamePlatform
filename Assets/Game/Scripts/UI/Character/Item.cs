@@ -57,7 +57,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
     public override void Start()
     {
         base.Start();
-        imageItem.sprite = Items.Icon;
+        imageItem.sprite = Items.uiDisPlay;
         canvasGroup = GetComponent<CanvasGroup>();
         beginMove = gameObject.transform.position;
     }
@@ -89,7 +89,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
-    public ItemID ItemID => Items.ItemID;
+    public ItemID ItemID => Items.itemID;
     public int Amount => amount;
 
     public ItemData ItemData
@@ -100,7 +100,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
             {
                 return null;
             }
-            return DataManager.Instance.GetItemDataByID(Items.ItemID);
+            return DataManager.Instance.GetItemDataByID(Items.itemID);
         }
     }
 
@@ -124,7 +124,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
 
     public Item(ItemID itemID, int amount)
     {
-        this.Items.ItemID = itemID;
+        this.Items.itemID = itemID;
         this.amount = amount;
     }
 
@@ -158,7 +158,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
     public static Item operator *(Item a, int b)
     {
         int amoutN = a.amount * b;
-        Item c = new Item(a.Items.ItemID, amoutN);
+        Item c = new Item(a.Items.itemID, amoutN);
         return c;
     }
 
