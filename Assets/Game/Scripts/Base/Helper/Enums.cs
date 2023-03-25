@@ -1,4 +1,4 @@
-public enum ItemID
+﻿public enum ItemID
 {
     NONE = 0,
 
@@ -19,4 +19,22 @@ public enum ItemID
     REMOVEADS = 10,
 
     #endregion cosume
+
+}
+public enum Attributes
+{
+    /// <summary>
+    /// NHANH NHẸN
+    /// </summary>
+    AGILITY,
+    //TRÍ TUỆ
+    INTELLECT,
+    /// <summary>
+    /// BỀN BỈ
+    /// </summary>
+    STAMINA,
+    /// <summary>
+    /// SỨC MẠNH
+    /// </summary>
+    STRNGTH,
 }
