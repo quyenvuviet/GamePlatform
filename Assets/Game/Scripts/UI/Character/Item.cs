@@ -57,7 +57,7 @@ public class Item : RaycastController, IBeginDragHandler, IDragHandler, IEndDrag
     public override void Start()
     {
         base.Start();
-        imageItem.sprite = Items.uiDisPlay;
+    //    imageItem.sprite = Items.uiDisPlay;
         canvasGroup = GetComponent<CanvasGroup>();
         beginMove = gameObject.transform.position;
     }
