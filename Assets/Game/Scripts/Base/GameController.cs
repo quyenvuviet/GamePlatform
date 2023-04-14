@@ -6,7 +6,6 @@ using STU;
 
 public class GameController : Singleton<GameController>
 {
-    
     public enum States
     {
         NONE=0,

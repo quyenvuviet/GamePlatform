@@ -12,7 +12,7 @@ public class ItemBullet : MonoBehaviour
         {
             gameObject.SetActive(false);
             PlayerMove.instance.IsBullet = true;
-            Debug.Log("co the ban dan");
+            Debug.Log("Player co the ban");
         }
     }
 }

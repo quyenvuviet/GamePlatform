@@ -51,10 +51,17 @@ public class ItemLevelUp : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (player.LevelPlayer == PlayerHealth.HIGHT)
+        {
+            Debug.Log("dsdsa"+PlayerHealth.LOWER);
+            return;
+        }
+
         if (collision.gameObject.tag == "Player")
         {
             gameObject.SetActive(false);
             player.LevelPlayer = PlayerHealth.HIGHT;
+            Debug.Log(player.LevelPlayer);
         }
     }
 

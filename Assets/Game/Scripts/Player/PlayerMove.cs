@@ -178,7 +178,7 @@ namespace Game.Scripts.player
             {
                 body.velocity = new Vector2(body.velocity.x, jumpPower);
             }
-            else if (this.onWall() && !this.isGround())
+            else if (/*this.onWall() &&*/ !this.isGround())
             {
                 if (horizontal == 0)
                 {

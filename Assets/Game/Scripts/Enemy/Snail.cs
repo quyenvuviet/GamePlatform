@@ -128,15 +128,21 @@ public class Snail : MonoBehaviour
 
         yield return null;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            collision.GetComponent<Health>().TakeDame(dame);
+            collision.gameObject.GetComponent<Health>().TakeDame(dame);
         }
-        if(collision.tag == "Bullet")
+        if (collision.gameObject.tag == "Bullet")
         {
             StartCoroutine(IeDead_AddForce());
         }
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+      
     }
 }

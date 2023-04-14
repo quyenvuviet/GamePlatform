@@ -36,13 +36,13 @@ namespace Game.Scripts.Enemy
                 if (coolDownTime >= AttackCoolDown)
                 {
                     coolDownTime = 0;
-                    StartCoroutine(waitmove());
+                    animator.SetTrigger("meteAttack");
                 }
             }
             else
             {
-                animator.SetTrigger("moving");
-                StopCoroutine(waitmove());
+                  animator.SetTrigger("moving");
+                //StopCoroutine(waitmove());
             }
 
             EnemyPartrol.instance.enabled = (!CkeckPlayerInSight());
@@ -53,7 +53,7 @@ namespace Game.Scripts.Enemy
 
         private IEnumerator waitmove()
         {
-            animator.SetTrigger("meteAttack");
+            
             yield return new WaitForEndOfFrame();
             animator.SetTrigger("moving");
         }
